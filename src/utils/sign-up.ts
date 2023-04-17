@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import prisma from '../db';
 import { body } from 'express-validator';
 import { isValidUser } from './user-validator';
-import type { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { User as UserParameters } from '../interfaces/user.interface';
 import { VerificationEmail } from '../interfaces/verification-email.interface';
 
@@ -14,7 +14,7 @@ const client = require('twilio')(
 export const createUser = async ({
 	with: email,
 	and: password,
-}: UserParameters): Promise<User> => {
+}: UserParameters): Promise<Prisma.Prisma__UserClient<User, never>> => {
 	const user = await prisma.user.create({
 		data: {
 			email,

@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { ValidationError } from '../../models/auth-service-errors/validation-error';
 import { createUser, sendVerificationCode, signJWT } from '../../utils/sign-up';
-import { AuthServiceUserTokenPayload } from '../../models/auth-service-payload/auth-service-user-token-payload.model';
 import {
 	AuthServiceDataPayload,
 	AuthServiceMetaPayload,
 	AuthServiceResponsePayload,
+	AuthServiceUserTokenPayload,
 } from '../../models/auth-service-payload';
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {

@@ -4,6 +4,6 @@ import signUp from '../handlers/sign-up';
 
 const router = Router();
 
-router.post('/signup', [validateEmail, validatePassword], signUp);
+router.post('/sign-up', [validateEmail, validatePassword], signUp);
 
 export { router as signUpRouter };

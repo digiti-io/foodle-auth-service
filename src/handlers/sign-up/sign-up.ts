@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { ValidationError } from '../../models/auth-service-errors/validation-error';
-import { createUser, sendVerificationCode } from '../../utils/sign-up';
+import { createUser, sendVerificationCode, signJWT } from '../../utils/sign-up';
+import { AuthServiceUserTokenPayload } from '../../models/auth-service-payload/auth-service-user-token-payload.model';
+import {
+	AuthServiceDataPayload,
+	AuthServiceMetaPayload,
+	AuthServiceResponsePayload,
+} from '../../models/auth-service-payload';
 
-export const signUp = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
+export const signUp = async (req: Request, res: Response, next: NextFunction) => {
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
@@ -18,19 +20,18 @@ export const signUp = async (
 
 	const user = await createUser({ with: email, and: password });
 
-	if (user) {
-		await sendVerificationCode({ to: email });
-	}
+	const token = signJWT({ with: user.id });
 
-	res.status(201).send({
-		success: true,
-		message: 'User created successfully',
-		errors: [],
-		data: {
-			auth: {
-				token: null,
-				user,
-			},
-		},
-	});
+	const verificationCode = await sendVerificationCode({ to: email });
+
+	const { password: userPassword, ...userData } = user;
+
+	const auth = new AuthServiceUserTokenPayload(userData, token);
+
+	const meta = new AuthServiceMetaPayload('User created successfully');
+	const data = new AuthServiceDataPayload(auth);
+
+	const response = new AuthServiceResponsePayload(meta, data);
+
+	res.status(201).send(response);
 };

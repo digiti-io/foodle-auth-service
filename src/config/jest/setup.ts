@@ -1,5 +1,6 @@
 import prisma from '../../db';
 
-beforeEach(async () => {
+afterAll(async () => {
 	await prisma.user.deleteMany();
+	await prisma.profile.deleteMany();
 });

@@ -5,7 +5,7 @@ export class ValidationError extends AuthServiceError {
 	status = 400;
 
 	errors = this.validationErrors.map(err => {
-		return { field: err.param, message: err.msg };
+		return { field: err.type === 'field' ? err.path : null, message: err.msg };
 	});
 
 	constructor(public validationErrors: ExpressValidationError[]) {

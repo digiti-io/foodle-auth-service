@@ -1,6 +1,6 @@
 export abstract class AuthServiceError extends Error {
 	abstract status: number;
-	abstract errors: { message: string; field?: string }[];
+	abstract errors: any;
 
 	constructor(message: string) {
 		super(message);

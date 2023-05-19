@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { expect } from '@jest/globals';
-import { createUserAndUpdateProfile } from '../src/utils/tests';
-import { app } from '../src/app';
+import { createUserAndUpdateProfile } from '../utils/tests';
+import { app } from '../app';
 
 beforeAll(() => createUserAndUpdateProfile());
 

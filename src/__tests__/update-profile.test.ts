@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { expect } from '@jest/globals';
-import { app } from '../src/app';
-import { User } from '../src/utils/tests';
-import prisma from '../src/db';
+import { app } from '../app';
+import { User } from '../utils/tests';
+import prisma from '../db';
 
 let token: string;
 
